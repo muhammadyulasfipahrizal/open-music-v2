@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const Hapi = require('@hapi/hapi');
 const ClientError = require('./exceptions/ClientError');
 // album import
@@ -6,15 +8,20 @@ const AlbumValidator = require('./validator/album');
 const AlbumService = require('./services/inMemory/AlbumService');
 // songs import
 const songs = require('./api/song');
-const SongsService = require('./services/inMemory/SongsService');
+const SongsService = require('./services/postgres/SongsService');
 const SongsValidator = require('./validator/songs');
 
 const init = async () => {
   const albumService = new AlbumService();
   const songsService = new SongsService();
   const server = Hapi.server({
-    port: 5000,
-    host: 'localhost',
+    port: process.env.PORT,
+    host: process.env.HOST,
+    routes: {
+      cors: {
+        origin: ['*'],
+      },
+    },
   });
 
   await server.register([
