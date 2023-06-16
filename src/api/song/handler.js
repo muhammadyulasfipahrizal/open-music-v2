@@ -1,4 +1,3 @@
-/* eslint-disable no-underscore-dangle */
 const autoBind = require('auto-bind');
 
 class SongsHandler {
@@ -23,12 +22,32 @@ class SongsHandler {
     return response;
   }
 
-  async getSongsHandler() {
+  async getSongsHandler(request) {
+    const { title, performer } = request.query;
     const songs = await this._service.getSongs();
+
+    let songsQuery = songs;
+
+    if (title !== undefined) {
+      songsQuery = songs.filter(
+        (songItem) => songItem.title.toLowerCase().includes(title.toLowerCase()),
+      );
+    }
+
+    if (performer !== undefined) {
+      songsQuery = songs.filter(
+        (songItem) => songItem.performer.toLowerCase().includes(performer.toLowerCase()),
+      );
+    }
+
     return {
       status: 'success',
       data: {
-        songs,
+        songs: songsQuery.map((song) => ({
+          id: song.id,
+          title: song.title,
+          performer: song.performer,
+        })),
       },
     };
   }

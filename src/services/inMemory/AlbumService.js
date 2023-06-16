@@ -1,4 +1,3 @@
-/* eslint-disable no-underscore-dangle */
 const { nanoid } = require('nanoid');
 const NotFoundError = require('../../exceptions/NotFoundError');
 const InvariantError = require('../../exceptions/InvariantError');
