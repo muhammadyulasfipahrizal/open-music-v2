@@ -9,13 +9,13 @@ class SongsServices {
   }
 
   async addSong({
-    title, year, genre, performer, duration,
+    title, year, genre, performer, duration, albumId,
   }) {
     const id = `song-${nanoid(16)}`;
 
     const query = {
-      text: 'INSERT INTO songs VALUES($1, $2, $3, $4, $5, $6) RETURNING id',
-      values: [id, title, year, genre, performer, duration],
+      text: 'INSERT INTO songs VALUES($1, $2, $3, $4, $5, $6, $7) RETURNING id',
+      values: [id, title, year, genre, performer, duration, albumId],
     };
 
     const result = await this._pool.query(query);
@@ -47,11 +47,11 @@ class SongsServices {
   }
 
   async editSongById(id, {
-    title, year, performer, genre, duration,
+    title, year, performer, genre, duration, albumId,
   }) {
     const query = {
-      text: 'UPDATE songs SET title = $1, year = $2, performer = $3, genre = $4, duration = $5 WHERE id = $6 RETURNING id',
-      values: [title, year, performer, genre, duration, id],
+      text: 'UPDATE songs SET title = $1, year = $2, performer = $3, genre = $4, duration = $5, "albumId" = $6 WHERE id = $7 RETURNING id',
+      values: [title, year, performer, genre, duration, albumId, id],
     };
     const result = await this._pool.query(query);
     if (!result.rows.length) {
