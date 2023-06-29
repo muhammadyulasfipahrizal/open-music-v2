@@ -11,4 +11,4 @@ const UsersValidator = {
   },
 };
 
-module.export = UsersValidator;
+module.exports = UsersValidator;
