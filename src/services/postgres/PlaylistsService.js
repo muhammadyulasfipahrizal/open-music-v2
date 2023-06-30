@@ -56,7 +56,6 @@ class PlaylistsService {
   async addSongByPlaylistId(playlistId, songId, credentialId) {
     const id = nanoid(16);
 
-    // memeriksa apakah ada song yang sesuai dengan songId yang diberikan
     await this._songService.getSongById(songId);
 
     const query1 = {
@@ -95,7 +94,6 @@ class PlaylistsService {
   }
 
   async deleteSongByPlaylistId(playlistId, songId, credentialId) {
-    // memeriksa apakah ada song yang sesuai dengan songId yang diberikan
     await this._songService.getSongById(songId);
 
     const query1 = {
