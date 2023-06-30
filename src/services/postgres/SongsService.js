@@ -33,13 +33,16 @@ class SongsServices {
   }
 
   async getSongById(id) {
-    const result = await this._pool.query('SELECT * FROM songs WHERE id = $1', [
-      id,
-    ]);
-    if (result.rowCount === 0) {
+    const query = {
+      text: 'SELECT * FROM songs WHERE id = $1',
+      values: [id],
+    };
+    const { rows, rowCount } = await this._pool.query(query);
+    if (!rowCount) {
       throw new NotFoundError('Lagu tidak ditemukan');
     }
-    return result.rows[0];
+
+    return rows.map[0];
   }
 
   async editSongById(id, {
